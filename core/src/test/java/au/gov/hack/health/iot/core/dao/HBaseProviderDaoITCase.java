@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import au.gov.dhs.tcsi.core.test.HBaseTest;
 import au.gov.hack.health.iot.core.domain.Person;
 import au.gov.hack.health.iot.core.factory.BeanFactory;
+import au.gov.hack.health.iot.core.test.HBaseTest;
 
 import static org.junit.Assert.*;
 

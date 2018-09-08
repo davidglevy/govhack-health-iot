@@ -5,9 +5,6 @@ import org.junit.experimental.categories.Category;
 
 import com.google.gson.Gson;
 
-
-import au.gov.dhs.tcsi.core.test.HdfsTest;
-import au.gov.dhs.tcsi.core.test.UnitTest;
 import au.gov.hack.health.iot.core.config.EnvironmentProperties;
 import au.gov.hack.health.iot.core.config.HBaseProperties;
 import au.gov.hack.health.iot.core.config.HdfsProperties;
@@ -15,6 +12,8 @@ import au.gov.hack.health.iot.core.config.KafkaProperties;
 import au.gov.hack.health.iot.core.config.KerberosProperties;
 import au.gov.hack.health.iot.core.config.SerializedPropertyFactory;
 import au.gov.hack.health.iot.core.config.ZookeeperProperties;
+import au.gov.hack.health.iot.core.test.HdfsTest;
+import au.gov.hack.health.iot.core.test.UnitTest;
 import au.gov.hack.health.iot.core.utils.SaslUtil;
 
 import static org.junit.Assert.*;

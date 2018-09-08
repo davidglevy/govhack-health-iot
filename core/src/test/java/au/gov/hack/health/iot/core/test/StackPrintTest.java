@@ -1,4 +1,4 @@
-package au.gov.dhs.tcsi.core.test;
+package au.gov.hack.health.iot.core.test;
 
 import org.junit.Test;
 
