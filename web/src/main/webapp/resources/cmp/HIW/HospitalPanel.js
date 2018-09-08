@@ -93,7 +93,8 @@ Ext.define('HIW.HospitalPanel', {
 		}
 
 		var graphics = new PIXI.Graphics();
-		graphics.beginFill(0xffffff);
+		graphics.lineStyle(2, 0xFFFFFF, 1);
+		graphics.beginFill(0x0000ff, 1);
 		graphics.drawPolygon(path);
 		graphics.endFill();
 		this.pixiApp.stage.addChild(graphics);
