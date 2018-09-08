@@ -5,6 +5,8 @@ public class Point {
 	public int x;
 	public int y;
 	public int z;
+	
+	
 	public int getX() {
 		return x;
 	}
