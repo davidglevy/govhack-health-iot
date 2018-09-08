@@ -15,9 +15,9 @@ import au.gov.hack.health.iot.core.test.HBaseTest;
 import static org.junit.Assert.*;
 
 @Category(HBaseTest.class)
-public class HBaseProviderDaoITCase {
+public class HBasePersonDaoITCase {
 
-	private static final Logger logger = Logger.getLogger(HBaseProviderDaoITCase.class);
+	private static final Logger logger = Logger.getLogger(HBasePersonDaoITCase.class);
 
 	HBasePersonDao target;
 
