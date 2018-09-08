@@ -37,7 +37,7 @@ Ext.define('HIW.HospitalPanel', {
 			});
 
 			Ext.Ajax.request({
-				url : basePath + '/floor/aaa_1',
+				url : basePath + '/floor/aaa_0',
 				withCredentials : false,
 				useDefaultXhrHeader : false,
 				method : 'GET',
