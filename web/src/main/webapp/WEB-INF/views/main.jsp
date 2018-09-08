@@ -8,9 +8,9 @@
 <title>Gov Hack Hospital UI</title>
 	<script type="text/javascript">
 		// Added base path
-		//var basePath = "${basePath}";
+		var basePath = "${basePath}";
 		//var basePath = "http://ip-172-31-3-213.ap-southeast-2.compute.internal:8100/health-iot-web";
-		var basePath = "http://localhost:18100/health-iot-web";
+		//var basePath = "http://localhost:18100/health-iot-web";
 	</script>
 
      <link rel="stylesheet" type="text/css" href="../resources/build/classic/theme-triton/resources/theme-triton-all.css" />
