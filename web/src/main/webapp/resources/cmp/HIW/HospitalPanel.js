@@ -35,6 +35,15 @@ Ext.define('HIW.HospitalPanel', {
 				resolution : 1
 			// default: 1
 			});
+			this.pixiApp = app;
+
+			let line = new PIXI.Graphics();
+			line.lineStyle(2, 0xFFFFFF, 1);
+			line.moveTo(0, 0);
+			line.lineTo(80, 50);
+			line.x = 32;
+			line.y = 400;
+			app.stage.addChild(line);
 
 			Ext.Ajax.request({
 				url : basePath + '/floor/aaa_0',
@@ -46,26 +55,8 @@ Ext.define('HIW.HospitalPanel', {
 					console.log("Received: " + response);
 
 					var jsonData = Ext.util.JSON.decode(response.responseText);
-					var resultMessage = jsonData.data.result;
 
-					var lastPoint = null;
-					
-					for (i = 0; i < resultMessage.corners.length; i++) {
-						if (lastPoint == null) {
-							lastPoint = resultMessage.corners[i];
-							continue;
-						} else {
-							let line = new PIXI.Graphics();
-							line.lineStyle(2, 0xFFFFFF, 1);
-							line.moveTo(0, 0);
-							line.lineTo(80, 50);
-							line.x = 32;
-							line.y = 400;
-							app.stage.addChild(line);
-							break;
-						}
-
-					}
+					me.drawCorners(jsonData);
 
 				}
 			});
@@ -77,5 +68,35 @@ Ext.define('HIW.HospitalPanel', {
 			this.updateLayout();
 
 		}
+	},
+	drawCorners : function(jsonData) {
+		var lastPoint = null;
+
+		var path = [];
+
+		for (var i = 0; i < jsonData.corners.length; i++) {
+			var point = jsonData.corners[i];
+
+			path.push(point.x);
+			path.push(point.y);
+
+			// let line = new PIXI.Graphics();
+			// line.lineStyle(2, 0xFFFFFF, 1);
+			// line.moveTo(lastP, 0);
+
+			// line.lineTo(lastPoint.x, lastPoint.y);
+			// line.x = lastPoint.x - point.x;
+			// line.y = lastPoint.y - point.y;
+			// this.pixiApp.stage.addChild(line);
+
+			// lastPoint = point;
+		}
+
+		var graphics = new PIXI.Graphics();
+		graphics.beginFill(0xffffff);
+		graphics.drawPolygon(path);
+		graphics.endFill();
+		this.pixiApp.stage.addChild(graphics);
+
 	}
 });
