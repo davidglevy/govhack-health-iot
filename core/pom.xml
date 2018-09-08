@@ -218,7 +218,7 @@
 								<!-- <java.security.krb5.conf>/etc/krb5.conf</java.security.krb5.conf> -->
 								<javax.security.auth.useSubjectCredsOnly>true</javax.security.auth.useSubjectCredsOnly>
 							</systemPropertyVariables>
-							<groups>au.gov.dhs.tcsi.test.HBaseTest</groups>
+							<groups>au.gov.hack.health.iot.core.test.HBaseTest</groups>
 						</configuration>
 					</plugin>
 				</plugins>
