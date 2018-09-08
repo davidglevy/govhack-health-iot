@@ -8,7 +8,9 @@ public class Room {
 	
 	private String floorId;
 	
-	private String localId;
+	private String id;
+
+	private String name;
 	
 	List<Point> corners;
 
@@ -28,12 +30,22 @@ public class Room {
 		this.floorId = floorId;
 	}
 
-	public String getLocalId() {
-		return localId;
+
+
+	public String getName() {
+		return name;
 	}
 
-	public void setLocalId(String localId) {
-		this.localId = localId;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public List<Point> getCorners() {
