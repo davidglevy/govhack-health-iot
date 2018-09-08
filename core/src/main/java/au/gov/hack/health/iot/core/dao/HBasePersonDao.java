@@ -28,7 +28,7 @@ public class HBasePersonDao extends HBaseDaoTemplate {
 	
 	@Override
 	public String getTableName() {
-		return "providers";
+		return "people";
 	}
 
 	public List<Person> getAll() {

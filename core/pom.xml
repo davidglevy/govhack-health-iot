@@ -213,7 +213,7 @@
 							<systemPropertyVariables>
 								<!-- This should be externalised into settings.xml profile for each 
 									developer/int test config -->
-								<runtime.config.path>/home/dlevy/runtime.json</runtime.config.path>
+								<runtime.config.path>/home/dlevy/runtime-govhack.json</runtime.config.path>
 								<java.security.auth.login.config>/home/dlevy/jaas.conf</java.security.auth.login.config>
 								<!-- <java.security.krb5.conf>/etc/krb5.conf</java.security.krb5.conf> -->
 								<javax.security.auth.useSubjectCredsOnly>true</javax.security.auth.useSubjectCredsOnly>
