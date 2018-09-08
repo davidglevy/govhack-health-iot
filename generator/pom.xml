@@ -8,7 +8,7 @@
 	<version>0.1-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
-	<name>Health IOT Data Generator</name>
+	<name>Health IoT Data Generator</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -8,12 +8,13 @@
 	<version>0.1-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
-	<name>Health IOT Core</name>
+	<name>Health IoT Core</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spark.core.version>2.3.0.cloudera3</spark.core.version>
 		<spring.project.version>4.3.16.RELEASE</spring.project.version>
+		<jackson.version>2.7.5</jackson.version>
 		<gaffer.version>1.5.2</gaffer.version>
 	</properties>
 
@@ -37,6 +38,27 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.project.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-streaming_2.11</artifactId>
 			<version>${spark.core.version}</version>
@@ -53,6 +75,11 @@
 					<groupId>io.netty</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-client</artifactId>
+			<version>1.2.0-cdh5.11.0</version>
 		</dependency>
 		<dependency>
 			<groupId>uk.gov.gchq.gaffer</groupId>
@@ -89,7 +116,11 @@
 			<version>3.4</version>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>ognl</groupId>
+			<artifactId>ognl</artifactId>
+			<version>2.7.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
