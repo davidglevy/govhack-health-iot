@@ -53,8 +53,6 @@ public class HBasePersonDaoITCase {
 		List<Person> results = target.getAll();
 		logger.info("There were [" + results.size() + "]");
 		
-		assertEquals(3, results.size());
-
 		for (Person p : results) {
 			logger.info("We found [" + p + "]");
 		}
