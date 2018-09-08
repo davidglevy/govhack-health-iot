@@ -22,6 +22,8 @@ public class Person {
 	
 	private boolean admin;
 	
+	private String bedId;
+	
 	public String getId() {
 		return id;
 	}
