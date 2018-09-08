@@ -23,7 +23,7 @@ put 'health:hospital', 'aaa', 'f1:address1', '1 south pole'
 put 'health:hospital_floor', 'aaa_0', 'f1:id', '0'
 put 'health:hospital_floor', 'aaa_0', 'f1:name', 'Ground'
 put 'health:hospital_floor', 'aaa_0', 'f1:hospitalId', 'aaa'
-put 'health:hospital_floor', 'aaa_0', 'f1:corners', '[{1317,39},{1431,493},{831,652},{606,795},{593,1249},{61,1239},{67,738},{170,480},{294,362},{482,260},{592,221},{1317,39}]'
+put 'health:hospital_floor', 'aaa_0', 'f1:corners', '[{x=1317,y=39},{x=1431,y=493},{x=831,y=652},{x=606,y=795},{x=593,y=1249},{x=61,y=1239},{x=67,y=738},{x=170,y=480},{x=294,y=362},{x=482,y=260},{x=592,y=221},{x=1317,y=39}]'
 
 
 

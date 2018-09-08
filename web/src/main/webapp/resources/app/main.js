@@ -1,5 +1,6 @@
 console.log(Ext.getVersion('extjs'));
 Ext.Loader.setPath('TCSI', '../resources/cmp/TCSI');
+Ext.Loader.setPath('HIW', '../resources/cmp/HIW');
 //Ext.exclude('Ext.tree.*').require('*');
 Ext.Loader.setConfig({
 	enabled : true
