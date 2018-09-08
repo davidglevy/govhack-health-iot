@@ -3,8 +3,6 @@ package au.gov.hack.health.iot.core.dao;
 import java.util.List;
 import java.util.UUID;
 
-import javax.ws.rs.ProcessingException;
-
 import org.apache.hadoop.hbase.client.Delete;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Put;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Component;
 import au.gov.hack.health.iot.core.dao.mapper.PersonMapper;
 import au.gov.hack.health.iot.core.domain.Person;
 import au.gov.hack.health.iot.core.exceptions.PersistenceException;
+import au.gov.hack.health.iot.core.exceptions.ProcessingException;
 
 import static au.gov.hack.health.iot.core.domain.Person.CF;
 

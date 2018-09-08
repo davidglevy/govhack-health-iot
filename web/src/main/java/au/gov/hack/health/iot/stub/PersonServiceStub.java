@@ -13,6 +13,7 @@ public class PersonServiceStub implements PersonService {
 	@Override
 	public Person getPerson(String id) {
 		Person p = new Person();
+		p.setId(id);
 		p.setAdmin(true);
 		p.setDateOfBirth(new LocalDate());
 		p.setEmail("test@example.com");
