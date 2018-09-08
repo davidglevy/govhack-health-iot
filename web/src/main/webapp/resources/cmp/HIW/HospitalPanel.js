@@ -77,8 +77,8 @@ Ext.define('HIW.HospitalPanel', {
 		for (var i = 0; i < jsonData.corners.length; i++) {
 			var point = jsonData.corners[i];
 
-			path.push(point.x);
-			path.push(point.y);
+			path.push(point.x / 4);
+			path.push(point.y / 4);
 
 			// let line = new PIXI.Graphics();
 			// line.lineStyle(2, 0xFFFFFF, 1);
