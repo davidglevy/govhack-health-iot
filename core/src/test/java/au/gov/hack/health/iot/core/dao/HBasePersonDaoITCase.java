@@ -32,15 +32,12 @@ public class HBasePersonDaoITCase {
 
 		List<Person> defs = target.getAll();
 		for (Person def : defs) {
-			if (!def.getId().startsWith("test")) {
-				// Skip non-test ones.
-				continue;
+			if (def.getId().startsWith("test")) {
+				logger.info("Deleting provider with Id [" + def.getId() + "]");
+				target.deleteHard(def.getId());
 			}
-			logger.info("Deleting provider with Id [" + def.getId() + "]");
-			target.deleteHard(def.getId());
 		}
 		defs = target.getAll();
-		assertTrue(defs.isEmpty());
 	}
 
 	@Test
