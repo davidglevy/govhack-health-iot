@@ -29,21 +29,13 @@ Ext.define('HIW.HospitalPanel', {
 
 			let app = new PIXI.Application({
 				width : 600, // default: 800
-				height : 400, // default: 600
+				height : 600, // default: 600
 				antialias : true, // default: false
 				transparent : false, // default: false
 				resolution : 1
 			// default: 1
 			});
 			this.pixiApp = app;
-
-			let line = new PIXI.Graphics();
-			line.lineStyle(2, 0xFFFFFF, 1);
-			line.moveTo(0, 0);
-			line.lineTo(80, 50);
-			line.x = 32;
-			line.y = 400;
-			app.stage.addChild(line);
 
 			Ext.Ajax.request({
 				url : basePath + '/floor/aaa_0',
@@ -73,7 +65,7 @@ Ext.define('HIW.HospitalPanel', {
 		var lastPoint = null;
 
 		var scale = 2.5;
-		
+
 		var path = [];
 
 		for (var i = 0; i < jsonData.corners.length; i++) {
@@ -83,7 +75,7 @@ Ext.define('HIW.HospitalPanel', {
 			path.push(point.y / scale);
 
 		}
-		
+
 		var graphics = new PIXI.Graphics();
 		graphics.lineStyle(2, 0xFFFFFF, 1);
 		graphics.beginFill(0x0000ff, 1);
@@ -93,23 +85,51 @@ Ext.define('HIW.HospitalPanel', {
 
 		for (var i = 0; i < jsonData.rooms.length; i++) {
 			path = [];
-			
+
+
+
 			var room = jsonData.rooms[i];
+
+			
+			var xSum = 0;
+			var ySum = 0;
+			
 			for (var j = 0; j < room.corners.length; j++) {
 				var point = room.corners[j];
-				
+
 				path.push(point.x / scale);
 				path.push(point.y / scale);
-				
+
+				xSum = xSum + point.x;
+				ySum = ySum + point.y;
 			}
+
+			var xAvg = xSum / (room.corners.length * 2);
+			var yAvg = ySum / (room.corners.length * 2);
+			
+			var buttonText = new PIXI.Text(room.name, {
+				fontFamily : 'Arial',
+				fontSize : 10,
+				fill : "white",
+				align : 'right'
+			});
+			//buttonText.anchor.set(0.5, 0.5);
+			buttonText.position.set(xAvg, yAvg);
 			
 			var graphics = new PIXI.Graphics();
 			graphics.lineStyle(2, 0xFFFFFF, 1);
 			graphics.beginFill(0xaaaaaa, 1);
 			graphics.drawPolygon(path);
 			graphics.endFill();
+			graphics.interactive = true;
+			graphics.roomId = room.id;
+			graphics.click = function(ev) {
+				console.log("Clicked " + ev.target.roomId);
+			};
+
 			this.pixiApp.stage.addChild(graphics);
+			graphics.addChild(buttonText);
 		}
-		
+
 	}
 });

@@ -37,7 +37,17 @@ put 'health:hospital_floor_room', 'aaa_0_2', 'f1:floorId', '0'
 put 'health:hospital_floor_room', 'aaa_0_2', 'f1:hospitalId', 'aaa'
 put 'health:hospital_floor_room', 'aaa_0_2', 'f1:corners', '[{x=1029,y=133},{x=1076,y=309},{x=962,y=340},{x=913,y=163},{x=1029,y=133}]'
 
+put 'health:hospital_floor_room', 'aaa_0_3', 'f1:id', '3'
+put 'health:hospital_floor_room', 'aaa_0_3', 'f1:name', 'C'
+put 'health:hospital_floor_room', 'aaa_0_3', 'f1:floorId', '0'
+put 'health:hospital_floor_room', 'aaa_0_3', 'f1:hospitalId', 'aaa'
+put 'health:hospital_floor_room', 'aaa_0_3', 'f1:corners', '[{x=895,y=168},{x=942,y=346},{x=828,y=376},{x=779,y=200},{x=895,y=168}]'
 
+put 'health:hospital_floor_room', 'aaa_0_4', 'f1:id', '4'
+put 'health:hospital_floor_room', 'aaa_0_4', 'f1:name', 'D'
+put 'health:hospital_floor_room', 'aaa_0_4', 'f1:floorId', '0'
+put 'health:hospital_floor_room', 'aaa_0_4', 'f1:hospitalId', 'aaa'
+put 'health:hospital_floor_room', 'aaa_0_4', 'f1:corners', '[{x=756,y=205},{x=798,y=376},{x=687,y=408},{x=641,y=237},{x=756,y=205}]'
 
 
 
