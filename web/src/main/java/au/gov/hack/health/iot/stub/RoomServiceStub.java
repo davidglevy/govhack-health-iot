@@ -32,8 +32,9 @@ public class RoomServiceStub implements RoomService {
 		corners.add(new Point(30 + offset, 130, 0));
 		corners.add(new Point(60 + offset, 130, 0));
 		corners.add(new Point(60 + offset, 160, 0));
-		corners.add(new Point(30 + offset, 130, 0));		
+		corners.add(new Point(30 + offset, 130, 0));	
 		f.setCorners(corners);
+		f.setCenter(new Point(35 + offset, 135, 0));
 		return f;
 	}
 

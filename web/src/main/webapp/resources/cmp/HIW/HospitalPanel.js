@@ -100,21 +100,17 @@ Ext.define('HIW.HospitalPanel', {
 				path.push(point.x / scale);
 				path.push(point.y / scale);
 
-				xSum = xSum + point.x;
-				ySum = ySum + point.y;
+				
 			}
-
-			var xAvg = xSum / (room.corners.length * 2);
-			var yAvg = ySum / (room.corners.length * 2);
 			
 			var buttonText = new PIXI.Text(room.name, {
 				fontFamily : 'Arial',
 				fontSize : 10,
-				fill : "white",
-				align : 'right'
+				fill : "white"
+				//align : 'right'
 			});
 			//buttonText.anchor.set(0.5, 0.5);
-			buttonText.position.set(xAvg, yAvg);
+			buttonText.position.set(room.center.x / scale, room.center.y / scale);
 			
 			var graphics = new PIXI.Graphics();
 			graphics.lineStyle(2, 0xFFFFFF, 1);
@@ -128,7 +124,8 @@ Ext.define('HIW.HospitalPanel', {
 			};
 
 			this.pixiApp.stage.addChild(graphics);
-			graphics.addChild(buttonText);
+			this.pixiApp.stage.addChild(buttonText);
+			//graphics.addChild(buttonText);
 		}
 
 	}

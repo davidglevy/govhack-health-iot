@@ -41,6 +41,9 @@ public class RoomMapper implements HBaseResultMapper<Room> {
 		List<Point> corners = gson.fromJson(cornersAsText, new TypeToken<List<Point>>() {
 		}.getType());
 		result.setCorners(corners);
+		
+		String pointAsText = hbaseUtil.getStringValue(r, CF, "center");
+		result.setCenter(gson.fromJson(pointAsText,Point.class));
 		return result;
 	}
 
