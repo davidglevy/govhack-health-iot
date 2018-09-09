@@ -1,6 +1,5 @@
 Ext.define('HIW.HospitalPanel', {
 	extend : 'Ext.panel.Panel',
-	// requires : [ 'TCSI.ProviderSearch', 'TCSI.ProviderCreator' ],
 	header : {},
 	header : true,
 	html : '<div id="pixi"></div>',
@@ -120,6 +119,7 @@ Ext.define('HIW.HospitalPanel', {
 			graphics.endFill();
 			graphics.interactive = true;
 			graphics.roomId = room.id;
+			graphics.room = room;
 			graphics.click = function(ev) {
 				console.log("Clicked " + ev.target.roomId);
 				
@@ -170,6 +170,8 @@ Ext.define('HIW.HospitalPanel', {
 				myForm.add(heartMonitor);
 				me.heartMonitor = heartMonitor;
 			
+				me.room = ev.target.room;
+				
 				var button = Ext.create("Ext.button.Button", {
 					text : 'Update',
 					margin : 5,
@@ -181,7 +183,7 @@ Ext.define('HIW.HospitalPanel', {
 						console.log("We have selected " + patientId);
 						
 						Ext.Ajax.request({
-							url : basePath + '/patient/' + patientId, // where you wanna post
+							url : basePath + '/room/' + me.room.hospitalId + '/' + me.room.floorId + '/' + me.room.id, // where you wanna post
 							method : 'POST',
 							success : function(fp, o) {
 								var responseText = fp.responseText;
@@ -194,7 +196,7 @@ Ext.define('HIW.HospitalPanel', {
 							},
 							//params
 							jsonData : {
-								patientId : patientId,
+								patientId : patientId
 								
 							}
 						// your json data

@@ -12,8 +12,6 @@
 
         <modules>
             <module>../core</module>
-            <module>../generator</module>
-            <!-- <module>../spark</module>-->
             <module>../web</module>
         </modules>
 

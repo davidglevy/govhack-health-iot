@@ -21,6 +21,7 @@ import au.gov.hack.health.iot.core.services.RoomService;
 @Component
 public class RoomServiceImpl implements RoomService {
 
+	
 	@Autowired
 	private HBaseRoomDao roomDao;
 	
@@ -33,7 +34,5 @@ public class RoomServiceImpl implements RoomService {
 	public List<Room> allForFloor(String floorId) {
 		return roomDao.allForFloor(floorId);
 	}
-
-	
 	
 }

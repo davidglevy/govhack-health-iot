@@ -53,6 +53,16 @@ put 'health:hospital_floor_room', 'aaa_0_4', 'f1:hospitalId', 'aaa'
 put 'health:hospital_floor_room', 'aaa_0_4', 'f1:corners', '[{x=756,y=205},{x=798,y=376},{x=687,y=408},{x=641,y=237},{x=756,y=205}]'
 put 'health:hospital_floor_room', 'aaa_0_4', 'f1:center', '{x=720,y=299}'
 
+put 'health:hospital_floor_room', 'aaa_0_5', 'f1:id', '5'
+put 'health:hospital_floor_room', 'aaa_0_5', 'f1:name', 'E'
+put 'health:hospital_floor_room', 'aaa_0_5', 'f1:floorId', '0'
+put 'health:hospital_floor_room', 'aaa_0_5', 'f1:hospitalId', 'aaa'
+put 'health:hospital_floor_room', 'aaa_0_5', 'f1:corners', '[{x=598,y=245},{x=668,y=413},{x=556,y=457},{x=485,y=288},{x=598,y=245}]'
+put 'health:hospital_floor_room', 'aaa_0_5', 'f1:center', '{x=579,y=354}'
+
+
+
+
 
 
 

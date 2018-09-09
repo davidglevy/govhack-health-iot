@@ -19,7 +19,7 @@ public class CustomPropertySource extends PropertySource<Object> {
 	private EnvironmentProperties environmentProperties;
 
 	public CustomPropertySource() {
-		super("tcsiCustomPropertySource");
+		super("hicCustomPropertySource");
 	}
 
 	@Override

@@ -1,5 +1,4 @@
 console.log(Ext.getVersion('extjs'));
-Ext.Loader.setPath('TCSI', '../resources/cmp/TCSI');
 Ext.Loader.setPath('HIW', '../resources/cmp/HIW');
 //Ext.exclude('Ext.tree.*').require('*');
 Ext.Loader.setConfig({
@@ -18,11 +17,11 @@ var wrapper = null;
 //var endPointHost = "http://toot-cdsw.lab1.com:8080";
 
 
-Ext.require([ 'TCSI.Login' ]);
+Ext.require([ 'HIW.Login' ]);
 
 Ext.onReady(function() {
 
-	Ext.create('TCSI.Login');
+	Ext.create('HIW.Login');
 	
 
 	

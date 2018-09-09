@@ -1,0 +1,3 @@
+au/gov/hack/health/iot/generator/domain/Hospital.class
+au/gov/hack/health/iot/generator/domain/Person.class
+au/gov/hack/health/iot/generator/domain/Gender.class

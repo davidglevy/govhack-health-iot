@@ -173,7 +173,6 @@
 					<systemPropertyVariables>
 						<java.security.auth.login.config>/home/dlevy/jaas.conf</java.security.auth.login.config>
 					</systemPropertyVariables>
-					<!--<groups>au.gov.dhs.tcsi.test.UnitTest</groups> -->
 				</configuration>
 			</plugin>
 		</plugins>
