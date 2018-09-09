@@ -1,5 +1,7 @@
 package au.gov.hack.health.iot.web.controller;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,4 +29,8 @@ public class RoomController {
 		return service.get(roomId);
 	}
 	
+	@GetMapping("/rooms/{floorId}")
+	public List<Room> getRooms(@PathVariable("floorId") String floorId) {
+		return service.allForFloor(floorId);
+	}
 }

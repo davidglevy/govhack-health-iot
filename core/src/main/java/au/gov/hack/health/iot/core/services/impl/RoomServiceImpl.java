@@ -1,5 +1,7 @@
 package au.gov.hack.health.iot.core.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,11 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public Room get(String id) {
 		return roomDao.get(id);
+	}
+
+	@Override
+	public List<Room> allForFloor(String floorId) {
+		return roomDao.allForFloor(floorId);
 	}
 
 	

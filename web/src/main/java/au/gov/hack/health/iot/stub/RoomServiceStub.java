@@ -16,20 +16,37 @@ public class RoomServiceStub implements RoomService {
 
 	@Override
 	public Room get(String id) {
+		Room f = buildRoom("1", 10);
+		
+		return f;
+	}
+
+	protected Room buildRoom(String id, int offset) {
 		Room f = new Room();
 		f.setFloorId("0");
 		f.setHospitalId("aaa");
-		f.setId("1");
-		f.setName("A");
+		f.setId(id);
+		f.setName(id);
 		
 		List<Point> corners = new ArrayList<>();
-		corners.add(new Point(130, 130, 0));
-		corners.add(new Point(160, 130, 0));
-		corners.add(new Point(160, 160, 0));
-		corners.add(new Point(130, 130, 0));		
+		corners.add(new Point(30 + offset, 130, 0));
+		corners.add(new Point(60 + offset, 130, 0));
+		corners.add(new Point(60 + offset, 160, 0));
+		corners.add(new Point(30 + offset, 130, 0));		
 		f.setCorners(corners);
-		
 		return f;
+	}
+
+	@Override
+	public List<Room> allForFloor(String floorId) {
+		List<Room> result = new ArrayList<Room>();
+		
+		result.add(buildRoom("1", 10));
+		result.add(buildRoom("2", 50));
+		result.add(buildRoom("3", 90));
+		
+		
+		return result;
 	}
 	
 }
