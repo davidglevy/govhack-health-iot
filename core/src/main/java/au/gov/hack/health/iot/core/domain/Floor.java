@@ -12,6 +12,8 @@ public class Floor {
 
 	private List<Point> corners;
 	
+	private List<Room> rooms;
+	
 	public String getHospitalId() {
 		return hospitalId;
 	}
@@ -42,6 +44,14 @@ public class Floor {
 
 	public void setCorners(List<Point> corners) {
 		this.corners = corners;
+	}
+
+	public List<Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(List<Room> rooms) {
+		this.rooms = rooms;
 	}
 
 	
