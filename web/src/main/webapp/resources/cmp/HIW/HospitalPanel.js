@@ -77,7 +77,7 @@ Ext.define('HIW.HospitalPanel', {
 		}
 
 		var graphics = new PIXI.Graphics();
-		graphics.lineStyle(2, 0xFFFFFF, 1);
+		graphics.lineStyle(1, 0xFFFFFF, 1);
 		graphics.beginFill(0x0000ff, 1);
 		graphics.drawPolygon(path);
 		graphics.endFill();
@@ -109,11 +109,12 @@ Ext.define('HIW.HospitalPanel', {
 				fill : "white"
 				//align : 'right'
 			});
+			buttonText.resolution = 2;
 			//buttonText.anchor.set(0.5, 0.5);
 			buttonText.position.set(room.center.x / scale, room.center.y / scale);
 			
 			var graphics = new PIXI.Graphics();
-			graphics.lineStyle(2, 0xFFFFFF, 1);
+			graphics.lineStyle(1, 0xFFFFFF, 1);
 			graphics.beginFill(0xaaaaaa, 1);
 			graphics.drawPolygon(path);
 			graphics.endFill();
@@ -121,6 +122,95 @@ Ext.define('HIW.HospitalPanel', {
 			graphics.roomId = room.id;
 			graphics.click = function(ev) {
 				console.log("Clicked " + ev.target.roomId);
+				
+				var me = this;
+				
+				var myForm = new Ext.form.Panel({
+				    width: 500,
+				    height: 400,
+				    title: 'Room Details ' + ev.target.roomId,
+				    floating: true,
+				    closable : true
+				});
+				
+				var patients = Ext.create('Ext.data.Store', {
+			        fields: ['id', 'nameAndDob'],
+			        data : [
+			            {"id":"1", "nameAndDob":"Alex Alexis 1900-01-01"},
+			            {"id":"2", "nameAndDob":"James James 1900-01-01"},
+			            {"id":"3", "nameAndDob":"Bill Billson 1900-01-01"}
+			        ]
+			    });
+				
+				var patient = Ext.create("Ext.form.field.ComboBox", {
+					padding : '5 5 5 5',
+					width : 400,
+					fieldLabel: 'Patient',
+				    store: patients,
+				    queryMode: 'local',
+				    displayField: 'nameAndDob',
+				    valueField: 'id',
+				});
+				myForm.add(patient);
+				me.patient = patient;
+				
+				// Add combo boxes for linked devices.
+				var ecgLink = Ext.create("Ext.form.field.Checkbox", {
+					fieldLabel : "Link to ECG AAABBCCC-" + ev.target.roomId,
+					padding : '5 5 5 5'
+				});
+				myForm.add(ecgLink);
+				me.ecgLink = ecgLink;
+
+				// Add combo boxes for linked devices.
+				var heartMonitor = Ext.create("Ext.form.field.Checkbox", {
+					fieldLabel : "Link to Heart Monitor AS-" + ev.target.roomId,
+					padding : '5 5 5 5'
+				});
+				myForm.add(heartMonitor);
+				me.heartMonitor = heartMonitor;
+			
+				var button = Ext.create("Ext.button.Button", {
+					text : 'Update',
+					margin : 5,
+					padding : '5 5 5 5',
+					wrappingForm : myForm,
+					handler : function() {
+						var patientField = me.patient;
+						var patientId = patientField.selected;
+						console.log("We have selected " + patientId);
+						
+						Ext.Ajax.request({
+							url : basePath + '/patient/' + patientId, // where you wanna post
+							method : 'POST',
+							success : function(fp, o) {
+								var responseText = fp.responseText;
+								//me.handleAjaxSuccess(me, responseText);
+								Ext.Msg.alert('Success', 'Room Updated');
+							}, // function called on success
+							failure : function(fp, o) {
+								// TODO Show cause
+								Ext.Msg.alert('Success', 'Room Updated');
+							},
+							//params
+							jsonData : {
+								patientId : patientId,
+								
+							}
+						// your json data
+						});
+						
+						var win = Ext.WindowManager.getActive();
+						if (win) {
+						win.close();
+						}
+					}
+				});
+				myForm.add(button);
+				
+				
+				
+				myForm.show();
 			};
 
 			this.pixiApp.stage.addChild(graphics);
