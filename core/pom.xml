@@ -12,7 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spark.core.version>2.3.0.cloudera3</spark.core.version>
+		<spark.core.version>2.4.0-cdh6.2.0</spark.core.version>
 		<spring.project.version>4.3.16.RELEASE</spring.project.version>
 		<jackson.version>2.7.5</jackson.version>
 		<gaffer.version>1.5.2</gaffer.version>
@@ -31,12 +31,12 @@
 
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
-		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
-			<version>${spark.core.version}</version>
-			<scope>provided</scope>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.spark</groupId> -->
+		<!-- <artifactId>spark-streaming-kafka-0-10_2.11</artifactId> -->
+		<!-- <version>${spark.core.version}</version> -->
+		<!-- <scope>provided</scope> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -58,6 +58,7 @@
 			<version>${spring.project.version}</version>
 		</dependency>
 
+
 		<dependency>
 			<groupId>org.apache.spark</groupId>
 			<artifactId>spark-streaming_2.11</artifactId>
@@ -76,11 +77,14 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase -->
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase-client</artifactId>
-			<version>1.2.0-cdh5.11.0</version>
+			<version>2.1.0-cdh6.2.0</version>
 		</dependency>
+
+
 		<dependency>
 			<groupId>uk.gov.gchq.gaffer</groupId>
 			<artifactId>graph</artifactId>
