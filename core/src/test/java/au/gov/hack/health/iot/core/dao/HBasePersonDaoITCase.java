@@ -61,8 +61,12 @@ public class HBasePersonDaoITCase {
 	}
 	
 	@Test
-	public void testSerialWrites() {
+	public void testSerialWrites() throws Exception {
 
+		logger.info("Sleeping 1 minute to allow system to wait for expiry of elements");
+		Thread.sleep(60000);
+		
+		
 		long startTime = System.currentTimeMillis();
 		
 		// 5 minutes
@@ -90,7 +94,7 @@ public class HBasePersonDaoITCase {
 			Person p1 = new Person();
 			
 			
-			p1.setId("test-" + current);
+			p1.setId(StringUtils.reverse(Long.toString(current)) + "-test");
 			p1.setEmail("current");
 			p1.setName("Test Person " + personCount);
 
