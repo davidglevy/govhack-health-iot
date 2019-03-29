@@ -3,6 +3,7 @@ package au.gov.hack.health.iot.core.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,4 +59,56 @@ public class HBasePersonDaoITCase {
 		}
 
 	}
+	
+	@Test
+	public void testSerialWrites() {
+
+		long startTime = System.currentTimeMillis();
+		
+		// 5 minutes
+		long endTime = startTime + (60 * 1000 * 5);
+
+		int personCount = 0;
+		int personCountPerSecond = 0;
+		int numSecondsPassed = 0;
+		
+		long lastSecond = startTime;
+		
+		ArrayList<Integer> countPerSecond = new ArrayList<>();
+		
+		while (System.currentTimeMillis() < endTime) {
+			long current = System.currentTimeMillis();
+			if (lastSecond + 1000 < current) {
+				// We have seen a second elapse.
+				logger.info("Seconds progressed ["+numSecondsPassed+"] and count is ["+personCount+"]");
+				countPerSecond.add(personCountPerSecond);
+				numSecondsPassed++;
+				// Increment the last second millis.
+				lastSecond += 1000;
+			}
+			
+			Person p1 = new Person();
+			
+			
+			p1.setId("test-" + current);
+			p1.setEmail("current");
+			p1.setName("Test Person " + personCount);
+
+			target.persist(p1);
+			personCount++;
+			personCountPerSecond++;
+			
+		}
+		
+		logger.info("There were [" + personCount + "] created");
+		
+		
+		for (int i = 0; i < countPerSecond.size(); i++) {
+			String second = StringUtils.leftPad(Integer.toString(i), 3);
+			String count = StringUtils.leftPad(Integer.toString(countPerSecond.get(i)), 3);
+			System.out.println(second + "," + count);
+		}
+
+	}
+
 }
