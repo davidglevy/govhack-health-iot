@@ -34,7 +34,7 @@ public class HBasePersonDaoITCase {
 
 		List<Person> defs = target.getAll();
 		for (Person def : defs) {
-			if (def.getId().startsWith("test")) {
+			if (def.getId().contains("-test-")) {
 				logger.info("Deleting provider with Id [" + def.getId() + "]");
 				target.deleteHard(def.getId());
 			}
@@ -43,6 +43,7 @@ public class HBasePersonDaoITCase {
 	}
 
 	@Test
+	@Ignore
 	public void testPersistAndRetrieve() {
 
 		Person p1 = new Person();
