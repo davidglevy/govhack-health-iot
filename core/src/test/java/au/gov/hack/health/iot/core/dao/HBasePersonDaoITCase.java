@@ -209,7 +209,9 @@ public class HBasePersonDaoITCase {
 
 			List<Person> people = new ArrayList<>();
 			
-			for (int i = 0; i < 10; i++) {
+			int batchSize = 100;
+			
+			for (int i = 0; i < batchSize; i++) {
 				Person p1 = new Person();
 				p1.setId(StringUtils.reverse(Long.toString(current)) + "-test-" + i);
 				p1.setEmail("current");
@@ -217,8 +219,8 @@ public class HBasePersonDaoITCase {
 				people.add(p1);
 			}
 			target.persist(people);
-			personCount += 10;
-			personCountPerSecond += 10;
+			personCount += batchSize;
+			personCountPerSecond += batchSize;
 			
 		}
 		
