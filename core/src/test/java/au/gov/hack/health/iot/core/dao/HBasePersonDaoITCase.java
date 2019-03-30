@@ -34,7 +34,7 @@ public class HBasePersonDaoITCase {
 
 		List<Person> defs = target.getAll();
 		for (Person def : defs) {
-			if (def.getId().contains("-test-")) {
+			if (def.getId().contains("-test")) {
 				logger.info("Deleting provider with Id [" + def.getId() + "]");
 				target.deleteHard(def.getId());
 			}
