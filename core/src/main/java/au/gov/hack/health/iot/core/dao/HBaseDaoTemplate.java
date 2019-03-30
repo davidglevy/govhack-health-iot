@@ -18,6 +18,7 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Row;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.security.User;
@@ -201,6 +202,28 @@ public abstract class HBaseDaoTemplate {
 			throw new PersistenceException("Unable to retrieve record [" + scan + "]: " + e.getMessage(), e);
 		}
 	}	
+	
+	public Object[] doPutBulk(List<Put> rows) {
+		try {
+		UserGroupInformation cached = saslUtil.getCachedUgi();
+		Object[] results = cached.doAs(new PrivilegedExceptionAction<Object[]>() {
+
+			@Override
+			public Object[] run() throws Exception {
+				Object[] results = new Object[rows.size()]; 
+				
+				table.batch(rows, results);
+				
+				return results;
+			}
+		});
+		
+		return results;
+		
+		} catch (Exception e) {
+			throw new PersistenceException("Unable to perform put: " + e.getMessage(), e);
+		}
+	}
 	
 	public void doPut(Put put) {
 		try {

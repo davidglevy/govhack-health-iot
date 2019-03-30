@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -61,6 +62,7 @@ public class HBasePersonDaoITCase {
 	}
 	
 	@Test
+	@Ignore
 	public void testSerialWrites() throws Exception {
 
 		logger.info("Sleeping 1 minute to allow system to wait for expiry of elements");
@@ -101,6 +103,63 @@ public class HBasePersonDaoITCase {
 			target.persist(p1);
 			personCount++;
 			personCountPerSecond++;
+			
+		}
+		
+		logger.info("There were [" + personCount + "] created");
+		
+		
+		for (int i = 0; i < countPerSecond.size(); i++) {
+			String second = StringUtils.leftPad(Integer.toString(i), 3);
+			String count = StringUtils.leftPad(Integer.toString(countPerSecond.get(i)), 3);
+			System.out.println(second + "," + count);
+		}
+
+	}
+
+	@Test
+	public void testSerialBulkWrites() throws Exception {
+
+		logger.info("Sleeping 1 minute to allow system to wait for expiry of elements");
+		Thread.sleep(60000);
+		
+		
+		long startTime = System.currentTimeMillis();
+		
+		// 5 minutes
+		long endTime = startTime + (60 * 1000 * 5);
+
+		int personCount = 0;
+		int personCountPerSecond = 0;
+		int numSecondsPassed = 0;
+		
+		long lastSecond = startTime;
+		
+		ArrayList<Integer> countPerSecond = new ArrayList<>();
+		
+		while (System.currentTimeMillis() < endTime) {
+			long current = System.currentTimeMillis();
+			if (lastSecond + 1000 < current) {
+				// We have seen a second elapse.
+				logger.info("Seconds progressed ["+numSecondsPassed+"] and count is ["+personCount+"]");
+				countPerSecond.add(personCountPerSecond);
+				numSecondsPassed++;
+				// Increment the last second millis.
+				lastSecond += 1000;
+			}
+
+			List<Person> people = new ArrayList<>();
+			
+			for (int i = 0; i < 10; i++) {
+				Person p1 = new Person();
+				p1.setId(StringUtils.reverse(Long.toString(current)) + "-test-" + i);
+				p1.setEmail("current");
+				p1.setName("Test Person " + personCount);
+				people.add(p1);
+			}
+			target.persist(people);
+			personCount += 10;
+			personCountPerSecond += 10;
 			
 		}
 		
