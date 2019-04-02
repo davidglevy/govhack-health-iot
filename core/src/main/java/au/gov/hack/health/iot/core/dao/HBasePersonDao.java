@@ -44,7 +44,7 @@ public class HBasePersonDao extends HBaseDaoTemplate {
 	public void persist(List<Person> people) {
 		List<Put> puts = new ArrayList<>();
 		for (Person p : people) {
-			puts.add(createPut(p));
+			puts.add(createPut(p, 300000L));
 		}
 
 		try {
@@ -63,9 +63,14 @@ public class HBasePersonDao extends HBaseDaoTemplate {
 		}
 
 	}
-	
+
 	public void persist(Person person) throws PersistenceException {
-		Put p = createPut(person);
+		persist(person, null);
+	}
+
+	
+	public void persist(Person person, Long ttl) throws PersistenceException {
+		Put p = createPut(person, ttl);
 		
 		try {
 			super.doPut(p);
@@ -76,14 +81,17 @@ public class HBasePersonDao extends HBaseDaoTemplate {
 
 	}
 
-	private Put createPut(Person person) {
+	private Put createPut(Person person, Long ttl) {
 		Put p = new Put(Bytes.toBytes(person.getId()));
 		p.addColumn(Bytes.toBytes(CF), Bytes.toBytes("name"), Bytes.toBytes(person.getName()));
 		p.addColumn(Bytes.toBytes(CF), Bytes.toBytes("email"), Bytes.toBytes(person.getEmail()));
 		p.addColumn(Bytes.toBytes(CF), Bytes.toBytes("id"), Bytes.toBytes(person.getId()));
 		p.addColumn(Bytes.toBytes(CF), Bytes.toBytes("deleted"), Bytes.toBytes(Boolean.FALSE));
-		// Keep for 5 minutes.
-		p.setTTL(300000);
+
+		if (ttl != null) {
+			// Keep for 5 minutes.
+			p.setTTL(ttl);
+		}
 		return p;
 	}
 
