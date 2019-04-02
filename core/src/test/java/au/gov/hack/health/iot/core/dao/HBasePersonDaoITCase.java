@@ -85,7 +85,7 @@ public class HBasePersonDaoITCase {
 			p1.setEmail("current@blah.com");
 			p1.setName("Test Person " + personId);
 
-			target.persist(p1, 9000000L);
+			//target.persist(p1, 9000000L);
 
 			int currentPercentComplete = (i * 100) / peopleToCreate;
 
