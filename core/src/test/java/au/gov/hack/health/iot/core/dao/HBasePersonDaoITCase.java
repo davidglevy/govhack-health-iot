@@ -85,7 +85,8 @@ public class HBasePersonDaoITCase {
 			
 			target.persist(p1);
 			
-			int currentPercentComplete = i / peopleToCreate;
+			int currentPercentComplete = (i * 100) / peopleToCreate;
+			
 			if (currentPercentComplete > percentComplete) {
 				percentComplete = currentPercentComplete;
 				logger.info("We are now [" + StringUtils.leftPad(Integer.toString(percentComplete), 3) + "%] complete, created [" + i + "] people");
