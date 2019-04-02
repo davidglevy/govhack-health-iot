@@ -68,7 +68,7 @@ public class HBasePersonDaoITCase {
 		List<String> peopleIds = new ArrayList<>();
 		
 		logger.info("Creating people for exercise");
-		int peopleToCreate = 1000000;
+		int peopleToCreate = 10000;
 		int percentComplete = 0;
 		
 		long start = System.currentTimeMillis();
@@ -84,7 +84,7 @@ public class HBasePersonDaoITCase {
 			p1.setEmail("current@blah.com");
 			p1.setName("Test Person " + personId);
 			
-			target.persist(p1, 300000L);
+			target.persist(p1, 900000L);
 			
 			int currentPercentComplete = (i * 100) / peopleToCreate;
 			
