@@ -63,6 +63,45 @@ public class HBasePersonDaoITCase {
 	}
 	
 	@Test
+	public void testReadPerformance() throws Exception {
+		List<String> peopleIds = new ArrayList<>();
+		
+		logger.info("Creating people for exercise");
+		int peopleToCreate = 1000000;
+		int percentComplete = 0;
+		
+		long start = System.currentTimeMillis();
+		
+		for (int i = 0; i < peopleToCreate; i++) {
+			String personId = StringUtils.leftPad(Integer.toString(i), 8, "0");
+			personId = StringUtils.reverse(personId);
+			peopleIds.add(personId);
+			
+			Person p1 = new Person();
+			
+			p1.setId(personId + "-test");
+			p1.setEmail("current@blah.com");
+			p1.setName("Test Person " + personId);
+			
+			target.persist(p1);
+			
+			int currentPercentComplete = i / peopleToCreate;
+			if (currentPercentComplete > percentComplete) {
+				percentComplete = currentPercentComplete;
+				logger.info("We are now [" + StringUtils.leftPad(Integer.toString(percentComplete), 3) + "%] complete, created [" + i + "] people");
+			}
+		}
+		
+		long end = System.currentTimeMillis();
+		long duration = end - start;
+		
+		logger.info("Created [" + peopleToCreate + "] in [" + (duration / 1000) + "s].");
+		
+		
+	}
+	
+	
+	@Test
 	@Ignore
 	public void testSerialWrites() throws Exception {
 
@@ -177,6 +216,7 @@ public class HBasePersonDaoITCase {
 	}
 
 	@Test
+	@Ignore
 	public void testSerialBulkWrites100() throws Exception {
 
 		logger.info("Sleeping 1 minute to allow system to wait for expiry of elements");
