@@ -34,14 +34,14 @@ public class HBasePersonDaoITCase {
 
 		logger.info("Removing existing rows");
 
-		List<Person> defs = target.getAll();
-		for (Person def : defs) {
-			if (def.getId().contains("-test")) {
-				logger.info("Deleting provider with Id [" + def.getId() + "]");
-				target.deleteHard(def.getId());
-			}
-		}
-		defs = target.getAll();
+//		List<Person> defs = target.getAll();
+//		for (Person def : defs) {
+//			if (def.getId().contains("-test")) {
+//				logger.info("Deleting provider with Id [" + def.getId() + "]");
+//				target.deleteHard(def.getId());
+//			}
+//		}
+//		defs = target.getAll();
 	}
 
 	@Test
@@ -73,6 +73,8 @@ public class HBasePersonDaoITCase {
 		int percentComplete = 0;
 		
 		long start = System.currentTimeMillis();
+		
+		
 		
 		for (int i = 0; i < peopleToCreate; i++) {
 			String personId = StringUtils.leftPad(Integer.toString(i), 8, "0");
