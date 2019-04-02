@@ -323,7 +323,7 @@ public class HBasePersonDaoITCase {
 				int chunkSize = ids.size() / threadCount;
 
 				int startIndex = position * chunkSize;
-				int endIndex = position * (chunkSize + 1);
+				int endIndex = (position + 1) * chunkSize;
 
 				if (position > 0) {
 					int mod = ids.size() % threadCount;
