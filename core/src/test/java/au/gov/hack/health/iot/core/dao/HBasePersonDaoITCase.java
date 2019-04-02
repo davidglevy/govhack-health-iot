@@ -1,6 +1,7 @@
 package au.gov.hack.health.iot.core.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -98,7 +99,27 @@ public class HBasePersonDaoITCase {
 		
 		logger.info("Created [" + peopleToCreate + "] in [" + (duration / 1000) + "s].");
 		
+		logger.info("Sleeping for 60 seconds to give system time to settle after writes");
+		Thread.sleep(60 * 1000);
 		
+		logger.info("Now performing randomized queries with shuffle on person ids");
+		Collections.shuffle(peopleIds);
+		
+		start = System.currentTimeMillis();
+		
+		for (int i = 0; i < peopleToCreate; i++) {
+			Person p = target.get(peopleIds.get(i));
+			if (i % 1000 == 0) {
+				logger.info("On lookup [" + StringUtils.leftPad(Integer.toString(i), 8) + "], Found [" + p.getId() + "]");
+			}
+		}
+
+		end = System.currentTimeMillis();
+
+		duration = end - start;
+		
+		logger.info("Queried [" + peopleToCreate + "] by key in random order in [" + (duration / 1000) + "s].");
+
 	}
 	
 	
