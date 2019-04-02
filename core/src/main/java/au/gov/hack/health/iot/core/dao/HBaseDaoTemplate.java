@@ -135,7 +135,7 @@ public abstract class HBaseDaoTemplate {
 	
 	
 	public <T> T get(Get get, HBaseResultMapper<T> mapper) throws PersistenceException {
-		logger.info("Performing get operation on [" + table.getName() + "] for record key [" + Bytes.toString(get.getRow()) + "]");
+		logger.debug("Performing get operation on [" + table.getName() + "] for record key [" + Bytes.toString(get.getRow()) + "]");
 		
 		try {
 			UserGroupInformation cached = saslUtil.getCachedUgi();
