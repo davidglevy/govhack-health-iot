@@ -119,7 +119,7 @@ public class HBasePersonDaoITCase {
 			HBaseRequestor requestor = new HBaseRequestor(threadCount, y, peopleIds, latch);
 
 			Thread t = new Thread(requestor);
-			t.run();
+			t.start();
 		}
 
 		latch.await();
