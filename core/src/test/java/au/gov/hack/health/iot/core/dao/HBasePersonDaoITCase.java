@@ -110,7 +110,7 @@ public class HBasePersonDaoITCase {
 
 		start = System.currentTimeMillis();
 
-		int threadCount = 10;
+		int threadCount = 100;
 
 		CountDownLatch latch = new CountDownLatch(threadCount);
 
