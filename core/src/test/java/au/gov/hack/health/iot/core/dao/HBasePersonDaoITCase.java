@@ -114,10 +114,13 @@ public class HBasePersonDaoITCase {
 
 		CountDownLatch latch = new CountDownLatch(threadCount);
 
+		List<HBaseRequestor> requestors = new ArrayList<>();
+		
 		for (int y = 0; y < threadCount; y++) {
 
 			HBaseRequestor requestor = new HBaseRequestor(threadCount, y, peopleIds, latch);
-
+			requestors.add(requestor);
+			
 			Thread t = new Thread(requestor);
 			t.start();
 		}
@@ -126,6 +129,10 @@ public class HBasePersonDaoITCase {
 
 		end = System.currentTimeMillis();
 
+		for (HBaseRequestor requestor : requestors) {
+			requestor.printSummary();
+		}
+		
 		duration = end - start;
 
 		logger.info("Queried [" + peopleToCreate + "] by key in random order in [" + (duration / 1000) + "s].");
@@ -309,11 +316,17 @@ public class HBasePersonDaoITCase {
 
 		CountDownLatch latch;
 
+		private long duration;
+		
 		public HBaseRequestor(int threadCount, int position, List<String> ids, CountDownLatch latch) {
 			this.threadCount = threadCount;
 			this.position = position;
 			this.ids = ids;
 			this.latch = latch;
+		}
+
+		public void printSummary() {
+			logger.info("Thread [" + position + "] finished in [" + duration + "ms]");
 		}
 
 		@Override
@@ -346,9 +359,8 @@ public class HBasePersonDaoITCase {
 
 				long end = System.currentTimeMillis();
 
-				long duration = end - start;
+				duration = end - start;
 
-				logger.info("Thread [" + position + "] finished in [" + duration + "ms]");
 			} catch (Exception e) {
 				logger.error("Exception in thread [" + position + "]: " + e.getMessage(), e);
 			} finally {
