@@ -102,8 +102,8 @@ public class HBasePersonDaoITCase {
 		
 		logger.info("Created [" + peopleToCreate + "] in [" + (duration / 1000) + "s].");
 		
-		logger.info("Sleeping for 60 seconds to give system time to settle after writes");
-		Thread.sleep(60 * 1000);
+		//logger.info("Sleeping for 60 seconds to give system time to settle after writes");
+		//Thread.sleep(60 * 1000);
 		
 		logger.info("Now performing randomized queries with shuffle on person ids");
 		Collections.shuffle(peopleIds);
@@ -335,6 +335,9 @@ public class HBasePersonDaoITCase {
 		
 		@Override
 		public void run() {
+			try {
+
+			
 			int mod = ids.size() % position;
 			
 			int chunkSize = ids.size();
@@ -347,7 +350,6 @@ public class HBasePersonDaoITCase {
 				endIndex += mod;
 			}
 
-			try {
 				logger.info("Thread [" + position + "] with start index [" + startIndex + "] and end index [" + endIndex + "]");
 				long start = System.currentTimeMillis();
 			
@@ -360,7 +362,7 @@ public class HBasePersonDaoITCase {
 			} catch (Exception e) {
 				logger.error("Exception in thread [" + position + "]: " + e.getMessage(), e);
 			} finally {
-			latch.countDown();
+				latch.countDown();
 			}
 		}
 	}
