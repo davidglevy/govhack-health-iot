@@ -69,7 +69,7 @@ public class HBasePersonDaoITCase {
 		List<String> peopleIds = new ArrayList<>();
 
 		logger.info("Creating people for exercise");
-		int peopleToCreate = 100;
+		int peopleToCreate = 10000;
 		int percentComplete = 0;
 
 		long start = System.currentTimeMillis();
