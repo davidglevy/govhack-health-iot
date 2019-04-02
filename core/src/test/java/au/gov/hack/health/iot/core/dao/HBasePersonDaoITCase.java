@@ -34,14 +34,14 @@ public class HBasePersonDaoITCase {
 
 		logger.info("Removing existing rows");
 
-//		List<Person> defs = target.getAll();
-//		for (Person def : defs) {
-//			if (def.getId().contains("-test")) {
-//				logger.info("Deleting provider with Id [" + def.getId() + "]");
-//				target.deleteHard(def.getId());
-//			}
-//		}
-//		defs = target.getAll();
+		// List<Person> defs = target.getAll();
+		// for (Person def : defs) {
+		// if (def.getId().contains("-test")) {
+		// logger.info("Deleting provider with Id [" + def.getId() + "]");
+		// target.deleteHard(def.getId());
+		// }
+		// }
+		// defs = target.getAll();
 	}
 
 	@Test
@@ -57,63 +57,63 @@ public class HBasePersonDaoITCase {
 
 		List<Person> results = target.getAll();
 		logger.info("There were [" + results.size() + "]");
-		
+
 		for (Person p : results) {
 			logger.info("We found [" + p + "]");
 		}
 
 	}
-	
+
 	@Test
 	public void testReadPerformance() throws Exception {
 		List<String> peopleIds = new ArrayList<>();
-		
+
 		logger.info("Creating people for exercise");
 		int peopleToCreate = 100;
 		int percentComplete = 0;
-		
+
 		long start = System.currentTimeMillis();
-		
-		
-		
+
 		for (int i = 0; i < peopleToCreate; i++) {
 			String personId = StringUtils.leftPad(Integer.toString(i), 8, "0");
 			personId = StringUtils.reverse(personId) + "-test";
 			peopleIds.add(personId);
-			
+
 			Person p1 = new Person();
-			
+
 			p1.setId(personId);
 			p1.setEmail("current@blah.com");
 			p1.setName("Test Person " + personId);
-			
+
 			target.persist(p1, 9000000L);
-			
+
 			int currentPercentComplete = (i * 100) / peopleToCreate;
-			
+
 			if (currentPercentComplete > percentComplete) {
 				percentComplete = currentPercentComplete;
-				logger.info("We are now [" + StringUtils.leftPad(Integer.toString(percentComplete), 3) + "%] complete, created [" + i + "] people");
+				logger.info("We are now [" + StringUtils.leftPad(Integer.toString(percentComplete), 3)
+						+ "%] complete, created [" + i + "] people");
 			}
 		}
-		
+
 		long end = System.currentTimeMillis();
 		long duration = end - start;
-		
+
 		logger.info("Created [" + peopleToCreate + "] in [" + (duration / 1000) + "s].");
-		
-		//logger.info("Sleeping for 60 seconds to give system time to settle after writes");
-		//Thread.sleep(60 * 1000);
-		
+
+		// logger.info("Sleeping for 60 seconds to give system time to settle
+		// after writes");
+		// Thread.sleep(60 * 1000);
+
 		logger.info("Now performing randomized queries with shuffle on person ids");
 		Collections.shuffle(peopleIds);
-		
+
 		start = System.currentTimeMillis();
-		
+
 		int threadCount = 10;
 
 		CountDownLatch latch = new CountDownLatch(threadCount);
-		
+
 		for (int y = 0; y < threadCount; y++) {
 
 			HBaseRequestor requestor = new HBaseRequestor(threadCount, y, peopleIds, latch);
@@ -121,62 +121,50 @@ public class HBasePersonDaoITCase {
 			Thread t = new Thread(requestor);
 			t.run();
 		}
-		
+
 		latch.await();
-		
-		
-		
-//		for (int i = 0; i < peopleToCreate; i++) {
-//			Person p = target.get(peopleIds.get(i));
-//			if (i % 1000 == 0) {
-//				logger.info("On lookup [" + StringUtils.leftPad(Integer.toString(i), 8) + "], Found [" + p.getId() + "]");
-//			}
-//		}
 
 		end = System.currentTimeMillis();
 
 		duration = end - start;
-		
+
 		logger.info("Queried [" + peopleToCreate + "] by key in random order in [" + (duration / 1000) + "s].");
 
 	}
-	
-	
+
 	@Test
 	@Ignore
 	public void testSerialWrites() throws Exception {
 
 		logger.info("Sleeping 1 minute to allow system to wait for expiry of elements");
 		Thread.sleep(60000);
-		
-		
+
 		long startTime = System.currentTimeMillis();
-		
+
 		// 5 minutes
 		long endTime = startTime + (60 * 1000 * 5);
 
 		int personCount = 0;
 		int personCountPerSecond = 0;
 		int numSecondsPassed = 0;
-		
+
 		long lastSecond = startTime;
-		
+
 		ArrayList<Integer> countPerSecond = new ArrayList<>();
-		
+
 		while (System.currentTimeMillis() < endTime) {
 			long current = System.currentTimeMillis();
 			if (lastSecond + 1000 < current) {
 				// We have seen a second elapse.
-				logger.info("Seconds progressed ["+numSecondsPassed+"] and count is ["+personCount+"]");
+				logger.info("Seconds progressed [" + numSecondsPassed + "] and count is [" + personCount + "]");
 				countPerSecond.add(personCountPerSecond);
 				numSecondsPassed++;
 				// Increment the last second millis.
 				lastSecond += 1000;
 			}
-			
+
 			Person p1 = new Person();
-			
-			
+
 			p1.setId(StringUtils.reverse(Long.toString(current)) + "-test");
 			p1.setEmail("current");
 			p1.setName("Test Person " + personCount);
@@ -184,12 +172,11 @@ public class HBasePersonDaoITCase {
 			target.persist(p1);
 			personCount++;
 			personCountPerSecond++;
-			
+
 		}
-		
+
 		logger.info("There were [" + personCount + "] created");
-		
-		
+
 		for (int i = 0; i < countPerSecond.size(); i++) {
 			String second = StringUtils.leftPad(Integer.toString(i), 3);
 			String count = StringUtils.leftPad(Integer.toString(countPerSecond.get(i)), 3);
@@ -204,26 +191,25 @@ public class HBasePersonDaoITCase {
 
 		logger.info("Sleeping 1 minute to allow system to wait for expiry of elements");
 		Thread.sleep(60000);
-		
-		
+
 		long startTime = System.currentTimeMillis();
-		
+
 		// 5 minutes
 		long endTime = startTime + (60 * 1000 * 5);
 
 		int personCount = 0;
 		int personCountPerSecond = 0;
 		int numSecondsPassed = 0;
-		
+
 		long lastSecond = startTime;
-		
+
 		ArrayList<Integer> countPerSecond = new ArrayList<>();
-		
+
 		while (System.currentTimeMillis() < endTime) {
 			long current = System.currentTimeMillis();
 			if (lastSecond + 1000 < current) {
 				// We have seen a second elapse.
-				logger.info("Seconds progressed ["+numSecondsPassed+"] and count is ["+personCount+"]");
+				logger.info("Seconds progressed [" + numSecondsPassed + "] and count is [" + personCount + "]");
 				countPerSecond.add(personCountPerSecond);
 				numSecondsPassed++;
 				// Increment the last second millis.
@@ -231,7 +217,7 @@ public class HBasePersonDaoITCase {
 			}
 
 			List<Person> people = new ArrayList<>();
-			
+
 			for (int i = 0; i < 10; i++) {
 				Person p1 = new Person();
 				p1.setId(StringUtils.reverse(Long.toString(current)) + "-test-" + i);
@@ -242,12 +228,11 @@ public class HBasePersonDaoITCase {
 			target.persist(people);
 			personCount += 10;
 			personCountPerSecond += 10;
-			
+
 		}
-		
+
 		logger.info("There were [" + personCount + "] created");
-		
-		
+
 		for (int i = 0; i < countPerSecond.size(); i++) {
 			String second = StringUtils.leftPad(Integer.toString(i), 3);
 			String count = StringUtils.leftPad(Integer.toString(countPerSecond.get(i)), 3);
@@ -262,26 +247,25 @@ public class HBasePersonDaoITCase {
 
 		logger.info("Sleeping 1 minute to allow system to wait for expiry of elements");
 		Thread.sleep(60000);
-		
-		
+
 		long startTime = System.currentTimeMillis();
-		
+
 		// 5 minutes
 		long endTime = startTime + (60 * 1000 * 5);
 
 		int personCount = 0;
 		int personCountPerSecond = 0;
 		int numSecondsPassed = 0;
-		
+
 		long lastSecond = startTime;
-		
+
 		ArrayList<Integer> countPerSecond = new ArrayList<>();
-		
+
 		while (System.currentTimeMillis() < endTime) {
 			long current = System.currentTimeMillis();
 			if (lastSecond + 1000 < current) {
 				// We have seen a second elapse.
-				logger.info("Seconds progressed ["+numSecondsPassed+"] and count is ["+personCount+"]");
+				logger.info("Seconds progressed [" + numSecondsPassed + "] and count is [" + personCount + "]");
 				countPerSecond.add(personCountPerSecond);
 				numSecondsPassed++;
 				// Increment the last second millis.
@@ -289,9 +273,9 @@ public class HBasePersonDaoITCase {
 			}
 
 			List<Person> people = new ArrayList<>();
-			
+
 			int batchSize = 100;
-			
+
 			for (int i = 0; i < batchSize; i++) {
 				Person p1 = new Person();
 				p1.setId(StringUtils.reverse(Long.toString(current)) + "-test-" + i);
@@ -302,12 +286,11 @@ public class HBasePersonDaoITCase {
 			target.persist(people);
 			personCount += batchSize;
 			personCountPerSecond += batchSize;
-			
+
 		}
-		
+
 		logger.info("There were [" + personCount + "] created");
-		
-		
+
 		for (int i = 0; i < countPerSecond.size(); i++) {
 			String second = StringUtils.leftPad(Integer.toString(i), 3);
 			String count = StringUtils.leftPad(Integer.toString(countPerSecond.get(i)), 3);
@@ -317,47 +300,54 @@ public class HBasePersonDaoITCase {
 	}
 
 	class HBaseRequestor implements Runnable {
-		
+
 		int threadCount;
-		
+
 		int position;
-		
+
 		List<String> ids;
-		
+
 		CountDownLatch latch;
-		
+
 		public HBaseRequestor(int threadCount, int position, List<String> ids, CountDownLatch latch) {
 			this.threadCount = threadCount;
 			this.position = position;
 			this.ids = ids;
 			this.latch = latch;
 		}
-		
+
 		@Override
 		public void run() {
 			try {
 
-			
-			int mod = ids.size() % position;
-			
-			int chunkSize = ids.size();
-			
-			int startIndex = position * chunkSize;
-			int endIndex = position * (chunkSize + 1);
-			
-			
-			if (mod > 0 && position + 1 == threadCount) {
-				endIndex += mod;
-			}
+				int chunkSize = ids.size();
 
-				logger.info("Thread [" + position + "] with start index [" + startIndex + "] and end index [" + endIndex + "]");
+				int startIndex = position * chunkSize;
+				int endIndex = position * (chunkSize + 1);
+
+				if (position > 0) {
+					int mod = ids.size() % position;
+					if (mod > 0 && position + 1 == threadCount) {
+						endIndex += mod;
+					}
+				}
+
+				logger.info("Thread [" + position + "] with start index [" + startIndex + "] and end index [" + endIndex
+						+ "]");
 				long start = System.currentTimeMillis();
-			
-				
+
+				for (int i = startIndex; i < endIndex; i++) {
+					Person p = target.get(ids.get(i));
+					if (i % 1000 == 0) {
+						logger.info("On lookup [" + StringUtils.leftPad(Integer.toString(i), 8) + "], Found ["
+								+ p.getId() + "]");
+					}
+				}
+
 				long end = System.currentTimeMillis();
-				
+
 				long duration = end - start;
-				
+
 				logger.info("Thread [" + position + "] finished in [" + duration + "ms]");
 			} catch (Exception e) {
 				logger.error("Exception in thread [" + position + "]: " + e.getMessage(), e);
@@ -367,6 +357,4 @@ public class HBasePersonDaoITCase {
 		}
 	}
 
-
-	
 }
