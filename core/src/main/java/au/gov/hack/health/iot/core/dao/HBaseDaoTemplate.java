@@ -152,7 +152,7 @@ public abstract class HBaseDaoTemplate {
 				logger.info("Result is null");
 				return null;
 			} else {
-				logger.info("Mapping result");
+				logger.debug("Mapping result");
 				return mapper.map(r);
 			}
 		} catch (Exception e) {

@@ -3,6 +3,7 @@ package au.gov.hack.health.iot.core.dao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -68,7 +69,7 @@ public class HBasePersonDaoITCase {
 		List<String> peopleIds = new ArrayList<>();
 		
 		logger.info("Creating people for exercise");
-		int peopleToCreate = 1000000;
+		int peopleToCreate = 100;
 		int percentComplete = 0;
 		
 		long start = System.currentTimeMillis();
@@ -107,12 +108,28 @@ public class HBasePersonDaoITCase {
 		
 		start = System.currentTimeMillis();
 		
-		for (int i = 0; i < peopleToCreate; i++) {
-			Person p = target.get(peopleIds.get(i));
-			if (i % 1000 == 0) {
-				logger.info("On lookup [" + StringUtils.leftPad(Integer.toString(i), 8) + "], Found [" + p.getId() + "]");
-			}
+		int threadCount = 10;
+
+		CountDownLatch latch = new CountDownLatch(threadCount);
+		
+		for (int y = 0; y < threadCount; y++) {
+
+			HBaseRequestor requestor = new HBaseRequestor(threadCount, y, peopleIds, latch);
+
+			Thread t = new Thread(requestor);
+			t.run();
 		}
+		
+		latch.await();
+		
+		
+		
+//		for (int i = 0; i < peopleToCreate; i++) {
+//			Person p = target.get(peopleIds.get(i));
+//			if (i % 1000 == 0) {
+//				logger.info("On lookup [" + StringUtils.leftPad(Integer.toString(i), 8) + "], Found [" + p.getId() + "]");
+//			}
+//		}
 
 		end = System.currentTimeMillis();
 
@@ -297,4 +314,55 @@ public class HBasePersonDaoITCase {
 
 	}
 
+	class HBaseRequestor implements Runnable {
+		
+		int threadCount;
+		
+		int position;
+		
+		List<String> ids;
+		
+		CountDownLatch latch;
+		
+		public HBaseRequestor(int threadCount, int position, List<String> ids, CountDownLatch latch) {
+			this.threadCount = threadCount;
+			this.position = position;
+			this.ids = ids;
+			this.latch = latch;
+		}
+		
+		@Override
+		public void run() {
+			int mod = ids.size() % position;
+			
+			int chunkSize = ids.size();
+			
+			int startIndex = position * chunkSize;
+			int endIndex = position * (chunkSize + 1);
+			
+			
+			if (mod > 0 && position + 1 == threadCount) {
+				endIndex += mod;
+			}
+
+			try {
+				logger.info("Thread [" + position + "] with start index [" + startIndex + "] and end index [" + endIndex + "]");
+				long start = System.currentTimeMillis();
+			
+				
+				long end = System.currentTimeMillis();
+				
+				long duration = end - start;
+				
+				logger.info("Thread [" + position + "] finished in [" + duration + "ms]");
+			} catch (Exception e) {
+				logger.error("Exception in thread [" + position + "]: " + e.getMessage(), e);
+			} finally {
+			latch.countDown();
+			}
+		}
+	}
+
+
+	
 }
